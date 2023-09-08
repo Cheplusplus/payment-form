@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import PaymentForm from "./components/PaymentForm";
+import { useState } from "react";
+
+/**
+ *
+ * @param {string} recipient
+ * @param {string} text
+ * @returns
+ */
+export const Message = (recipient, text) => {
+  return {
+    recipient: recipient,
+    text: text,
+  };
+};
+
+/**
+ *
+ * @param {string} inputID
+ * @returns
+ */
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [messages, setMessages] = useState([{}]);
 
+  const clearMessages = (inputID) =>
+    setMessages((msgs) => msgs.filter((msg) => msg.recipient !== inputID));
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <PaymentForm
+        messages={messages}
+        setMessages={setMessages}
+        clearMessages={clearMessages}
+      />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
