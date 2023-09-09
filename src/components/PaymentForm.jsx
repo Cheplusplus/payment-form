@@ -45,16 +45,7 @@ const monthFormatter = (month) => {
  * @param {function} p.setMessages
  * @param {function} p.clearMessages
  * @param {function} p.paymentSucceeded
- * @param {string} p.name
- * @param {function} p.setName
- * @param {string} p.cardNumber
- * @param {function} p.setCardNumber
- * @param {string} p.month
- * @param {function} p.setMonth
- * @param {string} p.year
- * @param {function} p.setYear
- * @param {string} p.CVC
- * @param {function} p.setCVC
+ * @param {function} p.updateUI
  * @returns
  */
 const PaymentForm = ({
@@ -62,17 +53,14 @@ const PaymentForm = ({
   setMessages,
   clearMessages,
   paymentSucceeded,
-  name,
-  setName,
-  cardNumber,
-  setCardNumber,
-  month,
-  setMonth,
-  year,
-  setYear,
-  CVC,
-  setCVC,
+  updateUI,
 }) => {
+  const [name, setName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [CVC, setCVC] = useState("");
+
   /**
    *
    * @param {object[]} inputItems
@@ -119,7 +107,7 @@ const PaymentForm = ({
         e.preventDefault();
         const inputItems = [
           inputItem("name", name, [isOnlyLetters, cannotBeBlank]),
-          inputItem("card-number", cardNumber, [isOnlyNumbers, cannotBeBlank]),
+          inputItem("cardNumber", cardNumber, [isOnlyNumbers, cannotBeBlank]),
           inputItem("month", month, [isOnlyNumbers, cannotBeBlank]),
           inputItem("year", year, [isOnlyNumbers, cannotBeBlank]),
           inputItem("cvc", CVC, [isOnlyNumbers, cannotBeBlank]),
@@ -136,11 +124,12 @@ const PaymentForm = ({
         validationFns={[isOnlyLetters]}
         setMessages={setMessages}
         clearMessages={clearMessages}
+        updateUI={updateUI}
       />
       <Messages messages={messages} inputID="name" />
       <label>CARD NUMBER</label>
       <Input
-        inputID="card-number"
+        inputID="cardNumber"
         value={cardNumber}
         maxLength={16}
         defaultValue="e.g. 1234 5678 9123 0000"
@@ -148,14 +137,15 @@ const PaymentForm = ({
         validationFns={[isOnlyNumbers]}
         setMessages={setMessages}
         clearMessages={clearMessages}
+        updateUI={updateUI}
       />
-      <Messages messages={messages} inputID="card-number" />
+      <Messages messages={messages} inputID="cardNumber" />
 
       <div className="flex-row">
         <div>
           <label>EXP. DATE (MM/YY)</label>
-          <div className="flex-col width100">
-            <div className="flex-row">
+          <div className="flex-row width100">
+            <div className="flex-col">
               <Input
                 inputID="month"
                 value={month}
@@ -166,8 +156,10 @@ const PaymentForm = ({
                 validationFns={[isOnlyNumbers]}
                 setMessages={setMessages}
                 clearMessages={clearMessages}
+                updateUI={updateUI}
               />
-
+            </div>
+            <div className="flex-col">
               <Input
                 inputID="year"
                 value={year}
@@ -177,9 +169,8 @@ const PaymentForm = ({
                 validationFns={[isOnlyNumbers]}
                 setMessages={setMessages}
                 clearMessages={clearMessages}
+                updateUI={updateUI}
               />
-            </div>
-            <div>
               <Messages messages={messages} inputID="month" />
               <Messages messages={messages} inputID="year" />
             </div>
@@ -196,6 +187,7 @@ const PaymentForm = ({
             validationFns={[isOnlyNumbers]}
             setMessages={setMessages}
             clearMessages={clearMessages}
+            updateUI={updateUI}
           />
           <Messages messages={messages} inputID="cvc" />
         </div>

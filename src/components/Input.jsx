@@ -16,6 +16,7 @@ import { Message } from "../App";
  * @param {function | null} [p.valueFormatter]
  * @param {number} [p.maxLength]
  * @param {function[]} [p.validationFns]
+ * @param {function|null} [p.updateUI]
  *
  * @returns
  */
@@ -29,6 +30,7 @@ const Input = ({
   valueFormatter = null,
   maxLength = 40,
   validationFns = [],
+  updateUI = null,
 }) => {
   return (
     <input
@@ -48,6 +50,7 @@ const Input = ({
       }}
       onChange={(e) => {
         setValue((v) => e.target.value);
+        updateUI !== null ? updateUI(inputID, e.target.value) : null;
         if (validationFns.length === 0) {
           return;
         }

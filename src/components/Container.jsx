@@ -5,21 +5,27 @@ import colorCard from "../assets/colorCard.svg";
 import greyCard from "../assets/greyCard.svg";
 import gradBG from "../assets/gradBG.svg";
 
+let uiState = {
+  name: "",
+  cardNumber: "",
+  month: "",
+  year: "",
+  cvc: "",
+};
+
+const updateUI = (key, value) => {
+  uiState[key] = value;
+};
+
 const Container = ({ messages, setMessages, clearMessages }) => {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-
-  const [name, setName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
-  const [CVC, setCVC] = useState("");
 
   return (
     <div className="container">
       <img src={gradBG} className="gradBG" />
       <div className="colorCardContainer">
         <img src={colorCard} className="colorCard" />
-        <p className="card-number">{cardNumber.padEnd(16, "0")}</p>
+        <p className="card-number">{uiState.cardNumber}</p>
       </div>
       <img src={greyCard} className="greyCard" />
       <div className="content">
@@ -29,16 +35,7 @@ const Container = ({ messages, setMessages, clearMessages }) => {
             setMessages={setMessages}
             clearMessages={clearMessages}
             paymentSucceeded={setPaymentSuccess}
-            name={name}
-            setName={setName}
-            cardNumber={cardNumber}
-            setCardNumber={setCardNumber}
-            month={month}
-            setMonth={setMonth}
-            year={year}
-            setYear={setYear}
-            CVC={CVC}
-            setCVC={setCVC}
+            updateUI={updateUI}
           />
         ) : (
           <Success />
