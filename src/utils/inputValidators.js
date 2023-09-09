@@ -7,7 +7,9 @@
 
 export const isOnlyLetters = (input) => {
   const stream = [...input];
-  return stream.every((char) => char.toLowerCase() !== char.toUpperCase())
+  return stream.every((char) =>
+    char !== " " ? char.toLowerCase() !== char.toUpperCase() : true
+  )
     ? true
     : "No numbers or special characters";
 };

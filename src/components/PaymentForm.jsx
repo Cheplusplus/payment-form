@@ -5,10 +5,11 @@ import {
   isOnlyNumbers,
   isOnlyLetters,
   cannotBeBlank,
-} from "../inputValidators";
+} from "../utils/inputValidators";
+import { validate } from "../utils/validator";
 import Input from "./Input";
 import Messages from "./Messages";
-import { validate } from "../validator";
+
 import { Message } from "../App";
 
 const JSONFileURL = "mock_server.json";
@@ -44,6 +45,16 @@ const monthFormatter = (month) => {
  * @param {function} p.setMessages
  * @param {function} p.clearMessages
  * @param {function} p.paymentSucceeded
+ * @param {string} p.name
+ * @param {function} p.setName
+ * @param {string} p.cardNumber
+ * @param {function} p.setCardNumber
+ * @param {string} p.month
+ * @param {function} p.setMonth
+ * @param {string} p.year
+ * @param {function} p.setYear
+ * @param {string} p.CVC
+ * @param {function} p.setCVC
  * @returns
  */
 const PaymentForm = ({
@@ -51,12 +62,56 @@ const PaymentForm = ({
   setMessages,
   clearMessages,
   paymentSucceeded,
+  name,
+  setName,
+  cardNumber,
+  setCardNumber,
+  month,
+  setMonth,
+  year,
+  setYear,
+  CVC,
+  setCVC,
 }) => {
-  const [name, setName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
-  const [CVC, setCVC] = useState("");
+  /**
+   *
+   * @param {object[]} inputItems
+   */
+  const handleSubmit = (inputItems) => {
+    const newMessages = [];
+    const JSONData = {};
+    inputItems.map((item) => {
+      clearMessages(item.id);
+      JSONData[item.id] = item.value;
+      const res = validate(item.value, item.validatorFns);
+      res === true
+        ? null
+        : res.map((msg) => newMessages.unshift(Message(item.id, msg)));
+    });
+    if (newMessages.length === 0) {
+      (async () => {
+        await fetch(JSONFileURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(JSONData),
+        })
+          .then((r) =>
+            r.status === 200 ? paymentSucceeded(true) : "Failed to fetch data"
+          )
+          .then((r) => {
+            r ? console.log(r) : console.log("Payment success!");
+          });
+      })();
+    } else {
+      newMessages.map((item) => {
+        const element = document.querySelector(`#${item.recipient}`);
+        element?.classList.add("input-error");
+      });
+      setMessages((msgs) => [...msgs, ...newMessages]);
+    }
+  };
 
   return (
     <form
@@ -69,93 +124,69 @@ const PaymentForm = ({
           inputItem("year", year, [isOnlyNumbers, cannotBeBlank]),
           inputItem("cvc", CVC, [isOnlyNumbers, cannotBeBlank]),
         ];
-        const newMessages = [];
-        const JSONData = {};
-        inputItems.map((item) => {
-          clearMessages(item.id);
-          JSONData[item.id] = item.value;
-          const res = validate(item.value, item.validatorFns);
-          res === true
-            ? null
-            : res.map((msg) => newMessages.unshift(Message(item.id, msg)));
-        });
-        if (newMessages.length === 0) {
-          (async () => {
-            await fetch(JSONFileURL, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(JSONData),
-            })
-              .then((r) => r.text())
-              .then((r) => console.log(r))
-              .then(() => paymentSucceeded(true));
-          })();
-        } else {
-          newMessages.map((item) => {
-            const element = document.querySelector(`#${item.recipient}`);
-            element?.classList.add("input-error");
-          });
-          setMessages((msgs) => [...msgs, ...newMessages]);
-        }
+        handleSubmit(inputItems);
       }}
     >
-      <label>
-        CARDHOLDER NAME
-        <Input
-          inputID="name"
-          value={name}
-          defaultValue="e.g. Jane Appleseed"
-          setValue={setName}
-          validationFns={[isOnlyLetters]}
-          setMessages={setMessages}
-          clearMessages={clearMessages}
-        />
-        <Messages messages={messages} inputID="name" />
-      </label>
-      <label>
-        CARD NUMBER
-        <Input
-          inputID="card-number"
-          value={cardNumber}
-          maxLength={16}
-          defaultValue="e.g. 1234 5678 9123 0000"
-          setValue={setCardNumber}
-          validationFns={[isOnlyNumbers]}
-          setMessages={setMessages}
-          clearMessages={clearMessages}
-        />
-        <Messages messages={messages} inputID="card-number" />
-      </label>
+      <label>CARDHOLDER NAME</label>
+      <Input
+        inputID="name"
+        value={name}
+        defaultValue="e.g. Jane Appleseed"
+        setValue={setName}
+        validationFns={[isOnlyLetters]}
+        setMessages={setMessages}
+        clearMessages={clearMessages}
+      />
+      <Messages messages={messages} inputID="name" />
+      <label>CARD NUMBER</label>
+      <Input
+        inputID="card-number"
+        value={cardNumber}
+        maxLength={16}
+        defaultValue="e.g. 1234 5678 9123 0000"
+        setValue={setCardNumber}
+        validationFns={[isOnlyNumbers]}
+        setMessages={setMessages}
+        clearMessages={clearMessages}
+      />
+      <Messages messages={messages} inputID="card-number" />
 
       <div className="flex-row">
-        <label>EXP. DATE (MM/YY)</label>
-        <Input
-          inputID="month"
-          value={month}
-          maxLength={2}
-          defaultValue="MM"
-          setValue={setMonth}
-          valueFormatter={monthFormatter}
-          validationFns={[isOnlyNumbers]}
-          setMessages={setMessages}
-          clearMessages={clearMessages}
-        />
-        <Messages messages={messages} inputID="month" />
-        <Input
-          inputID="year"
-          value={year}
-          defaultValue="YY"
-          setValue={setYear}
-          maxLength={2}
-          validationFns={[isOnlyNumbers]}
-          setMessages={setMessages}
-          clearMessages={clearMessages}
-        />
-        <Messages messages={messages} inputID="year" />
-        <label>
-          CVC
+        <div>
+          <label>EXP. DATE (MM/YY)</label>
+          <div className="flex-col width100">
+            <div className="flex-row">
+              <Input
+                inputID="month"
+                value={month}
+                maxLength={2}
+                defaultValue="MM"
+                setValue={setMonth}
+                valueFormatter={monthFormatter}
+                validationFns={[isOnlyNumbers]}
+                setMessages={setMessages}
+                clearMessages={clearMessages}
+              />
+
+              <Input
+                inputID="year"
+                value={year}
+                defaultValue="YY"
+                setValue={setYear}
+                maxLength={2}
+                validationFns={[isOnlyNumbers]}
+                setMessages={setMessages}
+                clearMessages={clearMessages}
+              />
+            </div>
+            <div>
+              <Messages messages={messages} inputID="month" />
+              <Messages messages={messages} inputID="year" />
+            </div>
+          </div>
+        </div>
+        <div className="flex-col">
+          <label>CVC</label>
           <Input
             inputID="cvc"
             value={CVC}
@@ -167,9 +198,9 @@ const PaymentForm = ({
             clearMessages={clearMessages}
           />
           <Messages messages={messages} inputID="cvc" />
-        </label>
+        </div>
       </div>
-      <input type="submit" />
+      <input type="submit" value={"Confirm"} id="submit-button" />
     </form>
   );
 };

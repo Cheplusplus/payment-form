@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -9,13 +9,59 @@
   box-sizing: border-box;
 }
 
+.container {
+  
+  width: 100%;
+  text-align: center;
+}
+
+.content {
+  position: absolute;
+  right: 20%;
+  top: 50%;
+  max-width: 1280px;
+  margin: 0 auto;
+  transform: translateY(-90%);
+}
+
 form {
   display: flex;
   flex-direction: column;
 }
 
+label {
+  float: left;
+  width: max-content;
+
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#month, #year {
+  width:60px;
+  margin-right:10px;
+}
+
+#cvc {
+  width: 180px;
+}
+
+.width100 {
+  width: 100%;
+}
+
 .flex-row {
   display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
 }
 
 input, label {
@@ -24,12 +70,81 @@ input, label {
 
 input {
   padding: 10px;
+  font-size: 2vh;
+  color: lightgrey;
+  margin: 20px 0;
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+
+    /* White */
+  background: #FFFFFF;
+  /* Light Grey */
+  border: 1px solid #DFDEE0;
+  border-radius: 8px;
 }
 
 input:focus {
   outline: none;
 }
 
+
+.selected {
+  border-color: #21092F;
+}
 .input-error {
   border-color: red;
 }
+
+.gradBG {
+  position: fixed;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+}
+
+.greyCard {
+  position: absolute;
+  width: 447px;
+  height: 245px;
+  left: 19vw;
+  top: 45vh;
+}
+
+.colorCardContainer {
+  position: absolute;
+  width: 447px;
+  height: 245px;
+  left: 15vw;
+  top: 20vh;
+}
+
+.card-number {
+  position: absolute;
+  top: 60%;
+  left: 20%;
+  color: #fff;
+}
+
+.message-list {
+  list-style-type: none;
+  text-align: left;
+  color: red;
+  padding: 0;
+  margin: 0;
+  width: 190px;
+}
+
+#submit-button {
+  background-color: #21092F;
+}
+
+
+
+
+
+
+
+

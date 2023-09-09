@@ -1,7 +1,7 @@
 //@ts-check
 
 import React from "react";
-import { validate } from "../validator";
+import { validate } from "../utils/validator";
 import { Message } from "../App";
 
 /**
@@ -34,23 +34,20 @@ const Input = ({
     <input
       type="text"
       id={inputID}
-      value={value !== "" ? value : defaultValue}
+      value={value}
+      placeholder={defaultValue}
       maxLength={maxLength}
       onFocus={(e) => {
-        //@ts-ignore
-        e.target.value === defaultValue
-          ? //@ts-ignore
-            (e.target.value = "")
-          : null;
+        e.target.classList.add("selected");
       }}
       onBlur={(e) => {
-        e.target.value = e.target.value !== "" ? e.target.value : defaultValue;
         valueFormatter !== null && e.target.value !== defaultValue
-          ? (e.target.value = valueFormatter(e.target.value))
+          ? setValue(valueFormatter(e.target.value))
           : null;
+        e.target.classList.remove("selected");
       }}
       onChange={(e) => {
-        setValue(e.target.value);
+        setValue((v) => e.target.value);
         if (validationFns.length === 0) {
           return;
         }
