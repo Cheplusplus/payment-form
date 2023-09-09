@@ -2,21 +2,29 @@
 
 /**
  * @param {string} input
- * @returns {true|Error}
+ * @returns {true|string}
  */
 
 export const isOnlyLetters = (input) => {
   const stream = [...input];
   return stream.every((char) => char.toLowerCase() !== char.toUpperCase())
     ? true
-    : new Error("No numbers or special characters allowed");
+    : "No numbers or special characters";
 };
 
 /**
  * @param {string} input
- * @returns {true|Error|null}
+ * @returns {true|string}
  */
 export const isOnlyNumbers = (input) => {
   const numInput = Number(input);
-  return !isNaN(numInput) ? true : new Error("Wrong format, numbers only");
+  return !isNaN(numInput) ? true : "Wrong format, numbers only";
+};
+
+/**
+ * @param {string} input
+ * @returns {true|string}
+ */
+export const cannotBeBlank = (input) => {
+  return input === "" ? "Cannot be blank" : true;
 };

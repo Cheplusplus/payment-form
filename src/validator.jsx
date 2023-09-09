@@ -1,10 +1,10 @@
 //@ts-check
 
 /** Takes in a string and a list of functions used to validate the string on.
- *  Returns {true} if all the functions return {true} else returns a list of {Error}
+ *  Returns {true} if all functions return {true} else returns a list of {string} errors
  * @param {string} input
  * @param {function[]} validatorFns
- * @returns {true|Error[]}
+ * @returns {true|string[]}
  */
 
 export const validate = (input, validatorFns) => {
@@ -13,5 +13,5 @@ export const validate = (input, validatorFns) => {
   });
   return res.every((v) => v === true)
     ? true
-    : res.filter((v) => v instanceof Error);
+    : res.filter((v) => typeof v === "string");
 };

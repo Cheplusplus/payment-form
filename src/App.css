@@ -21,3 +21,15 @@ form {
 input, label {
   display: block;
 }
+
+input {
+  padding: 10px;
+}
+
+input:focus {
+  outline: none;
+}
+
+.input-error {
+  border-color: red;
+}

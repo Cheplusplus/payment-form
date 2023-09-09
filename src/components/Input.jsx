@@ -6,14 +6,17 @@ import { Message } from "../App";
 
 /**
  *
- * @param {object} params
- * @prop {string} inputID
- * @prop {string} value
- * @prop {string} defaultValue
- * @prop {function} setValue
- * @prop {function[]} validationFns
- * @prop {function} setMessages
- * @prop {function} clearMessages
+ * @param {object} p
+ * @param {string} p.inputID
+ * @param {string} p.value
+ * @param {string} p.defaultValue
+ * @param {function} p.setValue
+ * @param {function} p.setMessages
+ * @param {function} p.clearMessages
+ * @param {function | null} [p.valueFormatter]
+ * @param {number} [p.maxLength]
+ * @param {function[]} [p.validationFns]
+ *
  * @returns
  */
 const Input = ({
@@ -21,34 +24,47 @@ const Input = ({
   value,
   defaultValue,
   setValue,
-  validationFns,
   setMessages,
   clearMessages,
+  valueFormatter = null,
+  maxLength = 40,
+  validationFns = [],
 }) => {
   return (
     <input
       type="text"
+      id={inputID}
       value={value !== "" ? value : defaultValue}
-      onClick={(e) => {
+      maxLength={maxLength}
+      onFocus={(e) => {
         //@ts-ignore
         e.target.value === defaultValue
           ? //@ts-ignore
             (e.target.value = "")
           : null;
       }}
+      onBlur={(e) => {
+        e.target.value = e.target.value !== "" ? e.target.value : defaultValue;
+        valueFormatter !== null && e.target.value !== defaultValue
+          ? (e.target.value = valueFormatter(e.target.value))
+          : null;
+      }}
       onChange={(e) => {
-        if (validationFns.length !== 0) {
-          setValue(e.target.value);
+        setValue(e.target.value);
+        if (validationFns.length === 0) {
           return;
         }
         const res = validate(e.target.value, validationFns);
         clearMessages(inputID);
-        res === true
-          ? setValue(e.target.value)
-          : res.map((error) => {
-              const newMessage = Message(inputID, error.toString());
-              setMessages((msgs) => [...msgs, newMessage]);
-            });
+        if (res === true) {
+          e.target.classList.remove("input-error");
+        } else {
+          res.map((error) => {
+            const newMessage = Message(inputID, error);
+            setMessages((msgs) => [...msgs, newMessage]);
+          });
+          e.target.classList.add("input-error");
+        }
       }}
     />
   );

@@ -1,5 +1,5 @@
 import "./App.css";
-import PaymentForm from "./components/PaymentForm";
+import Container from "./components/Container";
 import { useState } from "react";
 
 /**
@@ -24,14 +24,16 @@ export const Message = (recipient, text) => {
 function App() {
   const [messages, setMessages] = useState([{}]);
 
-  const clearMessages = (inputID) =>
+  const clearRecipientsMessages = (inputID) => {
     setMessages((msgs) => msgs.filter((msg) => msg.recipient !== inputID));
+  };
+
   return (
     <>
-      <PaymentForm
+      <Container
         messages={messages}
         setMessages={setMessages}
-        clearMessages={clearMessages}
+        clearMessages={clearRecipientsMessages}
       />
     </>
   );
