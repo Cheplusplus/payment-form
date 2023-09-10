@@ -18,7 +18,7 @@ import { Message } from "../App";
  * @param {function[]} [p.validationFns]
  * @param {function|null} [p.updateUI]
  *
- * @returns
+ * @returns {import("react").ReactElement<any, any>}
  */
 
 const Input = ({

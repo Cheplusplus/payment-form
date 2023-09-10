@@ -1,11 +1,18 @@
+// @ts-check
+
 import React, { useState } from "react";
 import PaymentForm from "./PaymentForm";
 import Success from "./Success";
+// @ts-ignore
 import colorCard from "../assets/colorCard.svg";
+// @ts-ignore
 import greyCard from "../assets/greyCard.svg";
+// @ts-ignore
 import gradBG from "../assets/gradBG.svg";
+// @ts-ignore
 import stripes from "../assets/stripes.svg";
 import { cardNumberFormatter } from "../utils/formatters.js";
+import { Message } from "../App";
 
 let uiState = {
   name: "",
@@ -16,7 +23,7 @@ let uiState = {
 };
 
 /**
- *
+ * Gets passed down to Payment form to update the uiState variables for display.
  * @param {string} key
  * @param {string} value
  */
@@ -24,6 +31,15 @@ const updateUI = (key, value) => {
   uiState[key] = value;
 };
 
+/**
+ *
+ * @param {object} p
+ * @param {Message[]} p.messages
+ * @param {function} p.setMessages
+ * @param {function} p.clearMessages
+ * @returns {import("react").ReactElement<any, any>}
+ */
+// @ts-ignore
 const Container = ({ messages, setMessages, clearMessages }) => {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 

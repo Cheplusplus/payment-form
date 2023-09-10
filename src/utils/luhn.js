@@ -1,7 +1,7 @@
 /**
  *
  * @param {string} idNum
- * @returns
+ * @returns {number}
  */
 const getCheckDigit = (idNum) => {
   let check = "";
@@ -23,6 +23,12 @@ const getCheckDigit = (idNum) => {
   return 10 - (checkSum % 10);
 };
 
+/**
+ * A simple check digit formula used to validate a variety of identification numbers.
+ * Accepts the number as a string and returns {true} if it validates and a {string} error otherwise.
+ * @param {string} payload
+ * @returns {true|string}
+ */
 export const checkSum = (payload) => {
   payload = payload.split(" ").join("");
   return getCheckDigit(payload) === parseInt(payload.slice(-1))

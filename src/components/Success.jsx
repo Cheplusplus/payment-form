@@ -1,6 +1,12 @@
+//@ts-check
 import React from "react";
+//@ts-ignore
 import checkMark from "../assets/checkMark.svg";
 
+/**
+ *
+ * @returns {import("react").ReactElement<any, any>}
+ */
 const Success = () => {
   return (
     <div className="success">

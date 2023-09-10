@@ -21,7 +21,7 @@ const JSONFileURL = "mock_server.json";
  * @param {string} id
  * @param {string} value
  * @param {function[]} validatorFns
- * @returns
+ * @returns {object}
  */
 const inputItem = (id, value, validatorFns) => {
   return {
@@ -39,7 +39,7 @@ const inputItem = (id, value, validatorFns) => {
  * @param {function} p.clearMessages
  * @param {function} p.paymentSucceeded
  * @param {function} p.updateUI
- * @returns
+ * @returns {import("react").ReactElement<any, any>}
  */
 const PaymentForm = ({
   messages,
