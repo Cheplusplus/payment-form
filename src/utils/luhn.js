@@ -30,4 +30,4 @@ export const checkSum = (payload) => {
     : "Card Number is incorrect";
 };
 
-console.log(checkSum("9710064503105395"));
+// 9710064503105395
