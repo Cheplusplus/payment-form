@@ -25,7 +25,7 @@ const getCheckDigit = (idNum) => {
 
 export const checkSum = (payload) => {
   payload = payload.split(" ").join("");
-  return getCheckDigit(payload) === parseInt(payload.slice(-1), 10)
+  return getCheckDigit(payload) === parseInt(payload.slice(-1))
     ? true
     : "Card Number is incorrect";
 };

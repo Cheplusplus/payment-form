@@ -5,12 +5,14 @@ import {
   isOnlyNumbers,
   isOnlyLetters,
   cannotBeBlank,
+  isLen3,
 } from "../utils/inputValidators";
 import { validate } from "../utils/validator";
 import Input from "./Input";
 import Messages from "./Messages";
 import { Message } from "../App";
 import { checkSum } from "../utils/luhn";
+import { cardNumberFormatter, monthFormatter } from "../utils/formatters";
 
 const JSONFileURL = "mock_server.json";
 
@@ -27,27 +29,6 @@ const inputItem = (id, value, validatorFns) => {
     value: value,
     validatorFns: validatorFns,
   };
-};
-
-/**
- *
- * @param {string} month
- * @returns {string}
- */
-const monthFormatter = (month) => {
-  return month.length === 1 ? month.padStart(2, "0") : month;
-};
-
-/**
- *
- * @param {string} cardNumber
- * @returns {string}
- */
-export const cardNumberFormatter = (cardNumber) => {
-  cardNumber = cardNumber.split(" ").join("");
-  let pattern = /(.{4})(?! )/g;
-  let outputString = cardNumber.replace(pattern, "$1 ");
-  return outputString;
 };
 
 /**
@@ -129,7 +110,7 @@ const PaymentForm = ({
           ]),
           inputItem("month", month, [isOnlyNumbers, cannotBeBlank]),
           inputItem("year", year, [isOnlyNumbers, cannotBeBlank]),
-          inputItem("cvc", CVC, [isOnlyNumbers, cannotBeBlank]),
+          inputItem("cvc", CVC, [isOnlyNumbers, cannotBeBlank, isLen3]),
         ];
         handleSubmit(inputItems);
       }}
@@ -150,7 +131,7 @@ const PaymentForm = ({
       <Input
         inputID="cardNumber"
         value={cardNumber}
-        maxLength={19}
+        maxLength={21}
         defaultValue="e.g. 1234 5678 9123 0000"
         setValue={setCardNumber}
         valueFormatter={cardNumberFormatter}

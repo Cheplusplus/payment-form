@@ -30,3 +30,11 @@ export const isOnlyNumbers = (input) => {
 export const cannotBeBlank = (input) => {
   return input === "" ? "Cannot be blank" : true;
 };
+
+/**
+ *
+ * @param {string} input
+ * @returns {true|string}
+ */
+export const isLen3 = (input) =>
+  input.length === 3 ? true : "Must be 3 characters";

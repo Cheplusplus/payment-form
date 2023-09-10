@@ -4,7 +4,7 @@ import Success from "./Success";
 import colorCard from "../assets/colorCard.svg";
 import greyCard from "../assets/greyCard.svg";
 import gradBG from "../assets/gradBG.svg";
-import { cardNumberFormatter } from "./PaymentForm";
+import { cardNumberFormatter } from "../utils/formatters.js";
 
 let uiState = {
   name: "",
