@@ -42,7 +42,7 @@ label {
   text-transform: uppercase;
 }
 
-#month, #year {
+.month, .year {
   width:80px;
   margin-right:10px;
 }
@@ -168,7 +168,7 @@ input:focus {
   text-transform: uppercase;
 }
 
-.cvc {
+.cvc-ui {
   text-align: left;
   left: 80%;
   top: calc(43% - 18px/2);

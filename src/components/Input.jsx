@@ -35,7 +35,7 @@ const Input = ({
   return (
     <input
       type="text"
-      id={inputID}
+      className={inputID}
       value={value}
       placeholder={defaultValue}
       maxLength={maxLength}
