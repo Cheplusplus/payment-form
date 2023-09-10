@@ -1,3 +1,5 @@
+//@ts-check
+import React from "react";
 import "./App.css";
 import Container from "./components/Container";
 import { useState } from "react";
@@ -17,13 +19,14 @@ export const Message = (recipient, text) => {
 
 /**
  *
- * @param {string} inputID
- * @returns
+ * @returns {import("react").ReactElement<any, any>}
  */
-
 function App() {
-  const [messages, setMessages] = useState([{}]);
-
+  const [messages, setMessages] = useState([Object()]);
+  /**
+   * @param {string} inputID
+   * @returns
+   */
   const clearRecipientsMessages = (inputID) => {
     setMessages((msgs) => msgs.filter((msg) => msg.recipient !== inputID));
   };
