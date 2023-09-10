@@ -160,6 +160,7 @@ input:focus {
 
 .date {
   text-align: left;
+  width: 80px;
   left: 80%;
   top: calc(80% - 18px/2);
   font-size: 14px;
@@ -190,6 +191,10 @@ input:focus {
 .submit-button {
   width: 420px;
   background-color: #21092F;
+}
+
+.month, .year {
+  width: 80px;
 }
 
 
