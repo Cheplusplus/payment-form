@@ -109,7 +109,7 @@ const PaymentForm = ({
       })();
     } else {
       newMessages.map((item) => {
-        const element = document.querySelector(`#${item.recipient}`);
+        const element = document.querySelector(`.${item.recipient}`);
         element?.classList.add("input-error");
       });
       setMessages((msgs) => [...msgs, ...newMessages]);
