@@ -9,8 +9,8 @@ import {
 import { validate } from "../utils/validator";
 import Input from "./Input";
 import Messages from "./Messages";
-
 import { Message } from "../App";
+import { checkSum } from "../utils/luhn";
 
 const JSONFileURL = "mock_server.json";
 
@@ -36,6 +36,18 @@ const inputItem = (id, value, validatorFns) => {
  */
 const monthFormatter = (month) => {
   return month.length === 1 ? month.padStart(2, "0") : month;
+};
+
+/**
+ *
+ * @param {string} cardNumber
+ * @returns {string}
+ */
+export const cardNumberFormatter = (cardNumber) => {
+  cardNumber = cardNumber.split(" ").join("");
+  let pattern = /(.{4})(?! )/g;
+  let outputString = cardNumber.replace(pattern, "$1 ");
+  return outputString;
 };
 
 /**
@@ -85,11 +97,14 @@ const PaymentForm = ({
           },
           body: JSON.stringify(JSONData),
         })
-          .then((r) =>
-            r.status === 200 ? paymentSucceeded(true) : "Failed to fetch data"
-          )
           .then((r) => {
-            r ? console.log(r) : console.log("Payment success!");
+            if (r.status === 200) {
+              paymentSucceeded(true);
+              return r.text();
+            } else return "Failed to send data";
+          })
+          .then((r) => {
+            console.log(r);
           });
       })();
     } else {
@@ -107,7 +122,11 @@ const PaymentForm = ({
         e.preventDefault();
         const inputItems = [
           inputItem("name", name, [isOnlyLetters, cannotBeBlank]),
-          inputItem("cardNumber", cardNumber, [isOnlyNumbers, cannotBeBlank]),
+          inputItem("cardNumber", cardNumber, [
+            isOnlyNumbers,
+            cannotBeBlank,
+            checkSum,
+          ]),
           inputItem("month", month, [isOnlyNumbers, cannotBeBlank]),
           inputItem("year", year, [isOnlyNumbers, cannotBeBlank]),
           inputItem("cvc", CVC, [isOnlyNumbers, cannotBeBlank]),
@@ -131,9 +150,10 @@ const PaymentForm = ({
       <Input
         inputID="cardNumber"
         value={cardNumber}
-        maxLength={16}
+        maxLength={19}
         defaultValue="e.g. 1234 5678 9123 0000"
         setValue={setCardNumber}
+        valueFormatter={cardNumberFormatter}
         validationFns={[isOnlyNumbers]}
         setMessages={setMessages}
         clearMessages={clearMessages}
@@ -144,8 +164,8 @@ const PaymentForm = ({
       <div className="flex-row">
         <div>
           <label>EXP. DATE (MM/YY)</label>
-          <div className="flex-row width100">
-            <div className="flex-col">
+          <div className="flex-col width100">
+            <div className="flex-row">
               <Input
                 inputID="month"
                 value={month}
@@ -158,8 +178,6 @@ const PaymentForm = ({
                 clearMessages={clearMessages}
                 updateUI={updateUI}
               />
-            </div>
-            <div className="flex-col">
               <Input
                 inputID="year"
                 value={year}
@@ -171,9 +189,9 @@ const PaymentForm = ({
                 clearMessages={clearMessages}
                 updateUI={updateUI}
               />
-              <Messages messages={messages} inputID="month" />
-              <Messages messages={messages} inputID="year" />
             </div>
+            <Messages messages={messages} inputID="month" />
+            <Messages messages={messages} inputID="year" />
           </div>
         </div>
         <div className="flex-col">
@@ -192,7 +210,7 @@ const PaymentForm = ({
           <Messages messages={messages} inputID="cvc" />
         </div>
       </div>
-      <input type="submit" value={"Confirm"} id="submit-button" />
+      <input type="submit" value={"Confirm"} className="submit-button" />
     </form>
   );
 };

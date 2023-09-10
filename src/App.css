@@ -7,21 +7,21 @@
 
 * {
   box-sizing: border-box;
+  font-family: 'Space Grotesk';
 }
 
 .container {
-  
+  position: relative;
   width: 100%;
   text-align: center;
 }
 
 .content {
   position: absolute;
-  right: 20%;
-  top: 50%;
-  max-width: 1280px;
-  margin: 0 auto;
-  transform: translateY(-90%);
+  left: 50vw;
+  top: 25vh;
+  width: 420px;
+
 }
 
 form {
@@ -43,13 +43,10 @@ label {
 }
 
 #month, #year {
-  width:60px;
+  width:80px;
   margin-right:10px;
 }
 
-#cvc {
-  width: 180px;
-}
 
 .width100 {
   width: 100%;
@@ -73,7 +70,6 @@ input {
   font-size: 2vh;
   color: lightgrey;
   margin: 20px 0;
-  font-family: 'Space Grotesk';
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -84,6 +80,7 @@ input {
   /* Light Grey */
   border: 1px solid #DFDEE0;
   border-radius: 8px;
+  cursor: url('./assets/pointer.png'), pointer;
 }
 
 input:focus {
@@ -107,25 +104,78 @@ input:focus {
 
 .greyCard {
   position: absolute;
-  width: 447px;
-  height: 245px;
-  left: 19vw;
-  top: 45vh;
+  left: 0;
+  top: 0;
+}
+
+.cards-container {
+  position: relative;
+  left: 11vw;
+  top: 20vh;
 }
 
 .colorCardContainer {
   position: absolute;
   width: 447px;
   height: 245px;
-  left: 15vw;
-  top: 20vh;
+  left: 0;
+  top: 0;
+}
+
+.greyCardContainer {
+  position: absolute;
+  width: 447px;
+  height: 245px;
+  left: 0%;
+  top: 0%;
+  transform: translate(25%, 115%);
+}
+
+
+.card-text {
+  position: absolute;
+  color: #fff;
+  font-style: normal;
+  font-weight: 500;
 }
 
 .card-number {
-  position: absolute;
-  top: 60%;
-  left: 20%;
-  color: #fff;
+  top: 45%;
+  left: 10%;
+  font-size: 28px;
+  line-height: 36px;
+  /* identical to box height */
+  letter-spacing: 3.42222px;
+}
+
+.card-name {
+  text-align: left;
+  left: 10%;
+  top: calc(80% - 18px/2);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.date {
+  text-align: left;
+  left: 80%;
+  top: calc(80% - 18px/2);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.cvc {
+  text-align: left;
+  left: 80%;
+  top: calc(43% - 18px/2);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .message-list {
@@ -137,7 +187,8 @@ input:focus {
   width: 190px;
 }
 
-#submit-button {
+.submit-button {
+  width: 420px;
   background-color: #21092F;
 }
 

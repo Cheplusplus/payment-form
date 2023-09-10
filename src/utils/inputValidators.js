@@ -19,7 +19,7 @@ export const isOnlyLetters = (input) => {
  * @returns {true|string}
  */
 export const isOnlyNumbers = (input) => {
-  const numInput = Number(input);
+  const numInput = Number(input.split(" ").join(""));
   return !isNaN(numInput) ? true : "Wrong format, numbers only";
 };
 
