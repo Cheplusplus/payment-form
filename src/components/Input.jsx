@@ -6,24 +6,32 @@ import { Message } from "../App";
 
 /**
  *
- * @param {object} params
- * @prop {string} inputID
- * @prop {string} value
- * @prop {string} defaultValue
- * @prop {function} setValue
- * @prop {function[]} validationFns
- * @prop {function} setMessages
- * @prop {function} clearMessages
+ * @param {object} p
+ * @param {string} p.inputID
+ * @param {string} p.value
+ * @param {string} p.defaultValue
+ * @param {function} p.setValue
+ * @param {function} p.setMessages
+ * @param {function} p.clearMessages
+ * @param {function | null} [p.valueFormatter]
+ * @param {number} [p.maxLength]
+ * @param {function[]} [p.validationFns]
+ * @param {function|null} [p.updateUI]
+ *
  * @returns
  */
+
 const Input = ({
   inputID,
   value,
   defaultValue,
   setValue,
-  validationFns,
   setMessages,
   clearMessages,
+  valueFormatter = null,
+  maxLength = 40,
+  validationFns = [],
+  updateUI = null,
 }) => {
   return (
     <input
@@ -39,20 +47,25 @@ const Input = ({
         valueFormatter !== null && e.target.value !== defaultValue
           ? setValue(valueFormatter(e.target.value))
           : null;
+        e.target.classList.remove("selected");
       }}
       onChange={(e) => {
-        if (validationFns.length !== 0) {
-          setValue(e.target.value);
+        setValue((v) => e.target.value);
+        updateUI !== null ? updateUI(inputID, e.target.value) : null;
+        if (validationFns.length === 0) {
           return;
         }
         const res = validate(e.target.value, validationFns);
         clearMessages(inputID);
-        res === true
-          ? setValue(e.target.value)
-          : res.map((error) => {
-              const newMessage = Message(inputID, error.toString());
-              setMessages((msgs) => [...msgs, newMessage]);
-            });
+        if (res === true) {
+          e.target.classList.remove("input-error");
+        } else {
+          res.map((error) => {
+            const newMessage = Message(inputID, error);
+            setMessages((msgs) => [...msgs, newMessage]);
+          });
+          e.target.classList.add("input-error");
+        }
       }}
     />
   );
