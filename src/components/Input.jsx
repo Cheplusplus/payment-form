@@ -9,7 +9,7 @@ import { Message } from "../App";
  * @param {object} p
  * @param {string} p.inputID
  * @param {string} p.value
- * @param {string} p.defaultValue
+ * @param {string} [p.defaultValue]
  * @param {function} p.setValue
  * @param {function} p.setMessages
  * @param {function} p.clearMessages
@@ -23,7 +23,7 @@ import { Message } from "../App";
 const Input = ({
   inputID,
   value,
-  defaultValue,
+  defaultValue = "",
   setValue,
   setMessages,
   clearMessages,
@@ -35,7 +35,7 @@ const Input = ({
   return (
     <input
       type="text"
-      id={inputID}
+      className={inputID}
       value={value}
       placeholder={defaultValue}
       maxLength={maxLength}
