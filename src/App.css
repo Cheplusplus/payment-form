@@ -191,12 +191,16 @@ input:focus {
 .submit-button {
   width: 420px;
   background-color: #21092F;
+  padding: 20px;
 }
 
 .month, .year {
   width: 80px;
 }
 
+.success > * {
+  padding: 20px;
+}
 
 
 

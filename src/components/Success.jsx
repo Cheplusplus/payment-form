@@ -3,11 +3,7 @@ import checkMark from "../assets/checkMark.svg";
 
 const Success = () => {
   return (
-    <div
-      style={{
-        marginTop: "50px",
-      }}
-    >
+    <div className="success">
       <img src={checkMark} />
       <h1>THANK YOU!</h1>
       <p>We've added your card details</p>
