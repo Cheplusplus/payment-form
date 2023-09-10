@@ -4,6 +4,7 @@ import Success from "./Success";
 import colorCard from "../assets/colorCard.svg";
 import greyCard from "../assets/greyCard.svg";
 import gradBG from "../assets/gradBG.svg";
+import stripes from "../assets/stripes.svg";
 import { cardNumberFormatter } from "../utils/formatters.js";
 
 let uiState = {
@@ -44,6 +45,7 @@ const Container = ({ messages, setMessages, clearMessages }) => {
         </div>
         <div className="greyCardContainer">
           <img src={greyCard} className="greyCard" />
+          <img src={stripes} className="stripes" />
           <p className="cvc-ui card-text">{uiState.cvc.padEnd(3, "0")}</p>
         </div>
       </div>

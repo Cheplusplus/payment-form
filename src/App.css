@@ -17,8 +17,8 @@
 }
 
 .content {
-  position: absolute;
-  left: 50vw;
+  position: relative;
+  left: 55vw;
   top: 25vh;
   width: 420px;
 
@@ -103,14 +103,14 @@ input:focus {
 }
 
 .greyCard {
-  position: absolute;
+  position: relative;
   left: 0;
   top: 0;
 }
 
 .cards-container {
   position: relative;
-  left: 11vw;
+  left: 13vw;
   top: 20vh;
 }
 
@@ -177,6 +177,12 @@ input:focus {
   line-height: 18px;
   letter-spacing: 2px;
   text-transform: uppercase;
+}
+
+.stripes {
+  position: relative;
+  left: 0;
+  top: -30%;
 }
 
 .message-list {
