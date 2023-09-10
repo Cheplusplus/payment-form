@@ -29,12 +29,15 @@ const Input = ({
     <input
       type="text"
       className={inputID}
-      value={value !== "" ? value : defaultValue}
-      onClick={(e) => {
-        //@ts-ignore
-        e.target.value === defaultValue
-          ? //@ts-ignore
-            (e.target.value = "")
+      value={value}
+      placeholder={defaultValue}
+      maxLength={maxLength}
+      onFocus={(e) => {
+        e.target.classList.add("selected");
+      }}
+      onBlur={(e) => {
+        valueFormatter !== null && e.target.value !== defaultValue
+          ? setValue(valueFormatter(e.target.value))
           : null;
       }}
       onChange={(e) => {

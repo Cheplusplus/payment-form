@@ -44,7 +44,7 @@ const Container = ({ messages, setMessages, clearMessages }) => {
         </div>
         <div className="greyCardContainer">
           <img src={greyCard} className="greyCard" />
-          <p className="cvc card-text">{uiState.cvc.padEnd(3, "0")}</p>
+          <p className="cvc-ui card-text">{uiState.cvc.padEnd(3, "0")}</p>
         </div>
       </div>
       <div className="content">
