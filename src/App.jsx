@@ -8,7 +8,7 @@ import { useState } from "react";
  *
  * @param {string} recipient
  * @param {string} text
- * @returns
+ * @returns {object}
  */
 export const Message = (recipient, text) => {
   return {
